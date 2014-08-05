@@ -1,0 +1,178 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+
+
+public class Annuary extends JTabbedPane
+{
+	private	JList listbox;
+	private GridBagLayout gbl = new GridBagLayout();
+	GridBagConstraints gbc = new GridBagConstraints();
+	private GridBagLayout gbcDroite = new GridBagLayout();
+	
+	public Annuary()
+	{
+		setVisible(true);
+		this.setPreferredSize(new Dimension(500,400));
+
+		JPanel panel = new JPanel();
+		//panel.setSize(new Dimension(500,500));
+		DefaultListModel dlm = packListBox(); // Remplir la JList
+		
+		JList listbox = new JList(dlm);
+		listbox.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		panel.setLayout(gbl);
+		
+		// Ajout des boutons du calendrier
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		panel.add(listbox, gbc);
+		
+		JScrollPane scrollPane = new JScrollPane(listbox);
+		scrollPane.setSize(230, 500);
+		scrollPane.setPreferredSize(new Dimension(230,500));
+		
+		// Ajout des boutons du calendrier
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		panel.add(scrollPane, gbc);
+		
+		// Le nom
+	    JPanel panNom = new JPanel();
+	    panNom.setLayout(gbcDroite);
+	    panNom.setPreferredSize(new Dimension(320, 497));
+	    panNom.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+	    
+	    JLabel nomLabel = new JLabel("Nom ");
+	    JTextField nom = new JTextField();
+	    nom.setPreferredSize(new Dimension(200, 25));
+	    
+	    JLabel prenomLabel = new JLabel("Prénom ");
+	    JTextField prenom = new JTextField();
+	    prenom.setPreferredSize(new Dimension(200, 25));
+	    
+	    JLabel emailLabel = new JLabel("Email ");
+	    JTextField email = new JTextField();
+	    email.setPreferredSize(new Dimension(200, 25));
+	    
+	    JLabel naissanceLabel = new JLabel("Date de naissance ");
+	    JTextField naissance = new JTextField();
+	    naissance.setPreferredSize(new Dimension(200, 25));
+	    
+	    JLabel test = new JLabel("");
+	    test.setPreferredSize(new Dimension(10,380));
+	    
+	    gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		panNom.add(nomLabel, gbc);
+		
+	    gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		panNom.add(nom, gbc);
+	    
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		panNom.add(prenomLabel, gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		panNom.add(prenom, gbc);
+						
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panNom.add(naissanceLabel, gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panNom.add(naissance, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panNom.add(emailLabel, gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panNom.add(email, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panNom.add(test, gbc);
+		
+		JPanel panel1 = new JPanel();
+		
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(panNom, gbc);
+		
+		addTab("Annuaire", null, panel, null);
+		addTab("Vos favoris", null, panel1, null); 
+	}
+	
+	private DefaultListModel packListBox()
+	{
+		DefaultListModel dlm = new DefaultListModel();
+		Employe.getAllEmploye();
+		
+		for(int i = 0 ; i< Employe.emp.size() ; i++)
+		{
+			System.out.println(Employe.emp.get(i).firstName);
+			dlm.addElement(Employe.emp.get(i));
+		}
+		
+		return dlm;
+	}
+}
